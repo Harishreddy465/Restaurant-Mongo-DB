@@ -1,0 +1,87 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('Restaurant');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.sales.drop();
+
+db.Appetizer.insertOne(
+  { 'Name':'Gobi 65',
+  'Price':12.65,
+'Spice level': 'Mild',
+  }
+  );
+
+// Insert a few documents into the sales collection.
+
+db.Biryani.insertMany([
+  { 'Name':'Aloo Biryani',
+'Price':12.3,
+'Spice Level':'Mild'
+  },
+  { 'Name':'Fish fry Biryani',
+'Price':13.5,
+'Spice Level':'Medium'
+  }
+  ]);
+
+// Run a find command to view items sold on April 4th, 2014.
+
+
+
+use("Restaurant");
+db.Breakfast.find(
+  { "Name" : "Ghee Dosa" },
+);
+
+
+  use("Restaurant");
+db.Dessert.findOne(
+  { "Name" : "Rasmalai" },
+  { "Price" : 9.6 }
+);
+
+//update commands
+
+
+use("Restaurant")
+db.Biryani.updateOne(
+  { 'Name':'Fish Biryani'},
+  { $inc: { 'Price':25 }}
+);
+
+use("Restaurant")
+db.Appetizer.updateMany(
+  { 'Name':'egg 65' },
+  { $set: { 'Price':36, }}
+);
+
+//delete commands
+//db.Biryani.deleteOne( { 'Name':'Paneer Biryani' } );
+//db.Appetizer.deleteMany({ 'Price':9.50})
+
+
+// Build an aggregation 
+
+
+use("Restauarant")
+db.Biryani.aggregate( [
+   // Stage 1: Filter accessories documents by accessories length
+   {
+      $match: { 'Name':'Paneer Biryani' }
+   },
+   // Stage 2: Group remaining documents by accessories name and calculate totalweight of accessories
+   {
+      $group: { '_id': "$id", TotalPrice: { $sum:"Price" } }
+   }
+] )
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+db.sales.aggregate(aggregation);
